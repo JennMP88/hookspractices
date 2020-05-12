@@ -45,18 +45,10 @@ class App extends Component {
       cursor:'pointer'
     }
 
-    return (
-      <div className="App">
-        <h1>Hi, I'm a react App</h1>
-        <p>This is a really working!</p>
-        {/* returns a function call, arrow function. not executed immediately.pass an anonymous function, then gets executed when function on click is done.
-        takes a event object technically as an obj. technically returns a function call */}
-        <button 
-        style={style}
-        onClick={()=>this.togglePeronsHandler()}>Toggle Persons</button>
-       
-       {this.state.showPersons ? 
-         <div >  
+    let persons=null;
+    if(this.state.showPersons){
+      persons=(
+        <div >  
         <Person
           name={this.state.persons[0].name}
           age={this.state.persons[0].age}
@@ -73,8 +65,22 @@ class App extends Component {
           name={this.state.persons[2].name}
           age={this.state.persons[2].age}
         />
-      </div>:null
-      }
+      </div>
+      )
+    }
+    return (
+      <div className="App">
+        <h1>Hi, I'm a react App</h1>
+        <p>This is a really working!</p>
+        {/* returns a function call, arrow function. not executed immediately.pass an anonymous function, then gets executed when function on click is done.
+        takes a event object technically as an obj. technically returns a function call */}
+        <button 
+        style={style}
+        onClick={()=>this.togglePeronsHandler()}>Toggle Persons</button>
+       
+
+        {persons}
+    
       </div>
     );
   }
