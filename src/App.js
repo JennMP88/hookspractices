@@ -9,6 +9,7 @@ class App extends Component {
       { name: "Manu", age: 29 },
       { name: "Stephanie", age: 26 },
     ],
+    showPersons:false
   };
   switchNameHandler = (newName) => {
     // console.log('Was clicked!')
@@ -30,6 +31,10 @@ class App extends Component {
       ],
     })
   }
+  togglePeronsHandler=()=>{
+    const doesShow=this.state.showPersons;
+    this.setState({showPersons: !doesShow})
+  }
 
   render() {
     const style={
@@ -48,7 +53,10 @@ class App extends Component {
         takes a event object technically as an obj. technically returns a function call */}
         <button 
         style={style}
-        onClick={()=>this.switchNameHandler('Jenni!! ')}>Switch Name</button>
+        onClick={()=>this.togglePeronsHandler()}>Toggle Persons</button>
+       
+       {this.state.showPersons ? 
+         <div >  
         <Person
           name={this.state.persons[0].name}
           age={this.state.persons[0].age}
@@ -65,6 +73,8 @@ class App extends Component {
           name={this.state.persons[2].name}
           age={this.state.persons[2].age}
         />
+      </div>:null
+      }
       </div>
     );
   }
