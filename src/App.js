@@ -5,22 +5,33 @@ import Person from "./Person/Person";
 class App extends Component {
   state = {
     persons: [
-      { name: "Max", age: 28 },
-      { name: "Manu", age: 29 },
-      { name: "Stephanie", age: 26 },
+      { id: '001',name: "Max", age: 28 },
+      { id: '007', name: "Manu", age: 29 },
+      { id: '002', name: "Stephanie", age: 26 },
     ],
-    showPersons: false,
+    otherState: 'some other value',
+    showPersons: false
   };
 
-
-  nameChangedHandler = (event) => {
-    this.setState({
-      persons: [
-        { name: "Max", age: 28 },
-        { name: event.target.value, age: 30 },
-        { name: "Stephanie", age: 26 },
-      ],
+// get id or idx of the user in the array
+  nameChangedHandler = (event, id) => {
+    const personIndex=this.state.persons.findIndex(p=>{
+      return p.id===id;//will return true if yes
     });
+
+    //Alternative way to make a copy of the object  
+    // const person=Object.assign({}, this.state.persons[personIndex])
+    const person={
+      ...this.state.persons[personIndex] 
+    };
+
+    person.name=event.target.value;
+
+    const persons=[...this.state.persons];
+    persons[personIndex]=person
+   
+    this.setState({persons:persons})
+
   };
 
   deletePersonHandler=(personIndex)=>{
@@ -30,7 +41,7 @@ class App extends Component {
   }
 
 
-  togglePeronsHandler = () => {
+  togglePersonHandler = () => {
     const doesShow = this.state.showPersons;
     this.setState({ showPersons: !doesShow });
   };
@@ -53,7 +64,9 @@ class App extends Component {
             click={()=> {this.deletePersonHandler(index)}}
             // click={this.deletePersonHandler.bind(this,index)}
             name={person.name} 
-            age={person.age} />;
+            age={person.age}
+            key={person.id} 
+            changed={(event)=>this.nameChangedHandler (event, person.id)}/>
           })}
         </div>
       );
@@ -64,7 +77,9 @@ class App extends Component {
         <p>This is a really working!</p>
         {/* returns a function call, arrow function. not executed immediately.pass an anonymous function, then gets executed when function on click is done.
         takes a event object technically as an obj. technically returns a function call */}
-        <button style={style} onClick={() => this.togglePeronsHandler()}>
+        <button 
+        style={style}
+         onClick={() => this.togglePersonHandler()}>
           Toggle Persons
         </button>
 
